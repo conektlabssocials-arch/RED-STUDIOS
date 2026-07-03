@@ -1,0 +1,6 @@
+# Optional: only used if you connect this repo to Netlify (Git deploy).
+# For drag-and-drop, upload the *contents* of the dist/ folder instead.
+
+[build]
+  command = "chmod +x build-dist.sh && ./build-dist.sh"
+  publish = "dist"

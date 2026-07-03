@@ -1,0 +1,8 @@
+{
+  "name": "red-studios-landing",
+  "private": true,
+  "scripts": {
+    "build": "chmod +x build-dist.sh && ./build-dist.sh",
+    "vercel:deploy": "npx --yes vercel@latest deploy --prod --yes -S rakesh-ss-projects"
+  }
+}

@@ -1,0 +1,713 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Red Studios — Moodboard</title>
+<meta name="viewport" content="width=1440" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bungee&family=JetBrains+Mono:wght@400;500;700&family=VT323&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --red:#FF0000;
+    --red-deep:#B20000;
+    --red-ember:#FF3B1F;
+    --ink:#0A0A0A;
+    --ink-2:#151515;
+    --bone:#F2EFE8;
+    --paper:#E9E4D8;
+    --grid:#1f1f1f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--ink);color:var(--bone);font-family:'JetBrains Mono',ui-monospace,monospace;}
+  body{padding:56px 56px 120px;max-width:1440px;margin:0 auto;}
+
+  /* ————— shared bits ————— */
+  .mono{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#9a9a9a;}
+  .mono.red{color:var(--red)}
+  .tick{display:inline-block;width:8px;height:8px;background:var(--red);margin-right:8px;transform:translateY(-1px);}
+  .rule{height:1px;background:#2a2a2a;margin:18px 0;}
+  .section{margin-top:72px;}
+  .section-hd{display:flex;align-items:baseline;gap:18px;margin-bottom:22px;}
+  .section-hd h2{font-family:'Anton',sans-serif;font-weight:400;font-size:40px;letter-spacing:.02em;color:var(--bone);text-transform:uppercase;}
+  .section-hd .n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--red);letter-spacing:.2em;}
+  .section-hd .sub{margin-left:auto;font-size:11px;color:#7a7a7a;letter-spacing:.15em;text-transform:uppercase;}
+
+  /* ————— masthead ————— */
+  .mast{
+    position:relative;
+    border:1px solid #242424;
+    padding:28px 32px 36px;
+    background:
+      repeating-linear-gradient(90deg,transparent 0 79px,#141414 79px 80px),
+      var(--ink);
+  }
+  .mast-top{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:.2em;color:#7a7a7a;text-transform:uppercase;}
+  .mast-top .right{display:flex;gap:24px;}
+  .mast-top .right span b{color:var(--bone);font-weight:500;}
+  .mast h1{
+    font-family:'Anton',sans-serif;font-weight:400;
+    font-size:180px;line-height:.86;letter-spacing:-.01em;
+    margin-top:28px;color:var(--bone);
+    text-transform:uppercase;
+  }
+  .mast h1 .slash{color:var(--red);}
+  .mast h1 em{font-style:normal;color:var(--red);position:relative;}
+  .mast h1 em::after{
+    content:"";position:absolute;left:0;right:0;top:-6px;height:6px;
+    background:repeating-linear-gradient(90deg,var(--red) 0 8px,transparent 8px 12px);
+  }
+  .mast-foot{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:24px;margin-top:36px;}
+  .mast-foot div .k{font-size:10px;color:#7a7a7a;letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px;}
+  .mast-foot div .v{font-family:'Anton',sans-serif;font-size:22px;letter-spacing:.04em;text-transform:uppercase;}
+
+  /* ————— grid ————— */
+  .grid{display:grid;gap:14px;}
+  .g-3{grid-template-columns:repeat(3,1fr);}
+  .g-4{grid-template-columns:repeat(4,1fr);}
+  .g-6{grid-template-columns:repeat(6,1fr);}
+  .g-12{grid-template-columns:repeat(12,1fr);}
+  .card{
+    position:relative;background:var(--ink-2);border:1px solid #222;
+    aspect-ratio:1/1;overflow:hidden;
+  }
+  .card .label{
+    position:absolute;left:10px;right:10px;bottom:10px;
+    display:flex;justify-content:space-between;font-size:10px;letter-spacing:.15em;
+    color:#bdbdbd;text-transform:uppercase;
+  }
+  .card .tl{position:absolute;left:10px;top:10px;font-size:10px;letter-spacing:.15em;color:#8a8a8a;text-transform:uppercase;}
+
+  /* ————— colors ————— */
+  .swatch{aspect-ratio:1/1;border:1px solid #222;position:relative;overflow:hidden;padding:14px;display:flex;flex-direction:column;justify-content:space-between;}
+  .swatch .top{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;}
+  .swatch .name{font-family:'Anton',sans-serif;font-size:32px;letter-spacing:.02em;text-transform:uppercase;line-height:.9;}
+  .swatch .meta{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;}
+  .sw-red{background:var(--red);color:#0a0a0a;}
+  .sw-red .top,.sw-red .meta{color:#0a0a0a;}
+  .sw-ember{background:var(--red-ember);color:#0a0a0a;}
+  .sw-deep{background:var(--red-deep);color:var(--bone);}
+  .sw-deep .top,.sw-deep .meta{color:var(--bone);}
+  .sw-ink{background:var(--ink);color:var(--bone);border-color:#2a2a2a;}
+  .sw-ink2{background:#1a1a1a;color:var(--bone);}
+  .sw-bone{background:var(--bone);color:var(--ink);}
+  .sw-bone .top,.sw-bone .meta{color:var(--ink);}
+
+  /* ————— typography ————— */
+  .type-row{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:baseline;padding:22px 0;border-top:1px solid #222;}
+  .type-row:last-child{border-bottom:1px solid #222;}
+  .type-row .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:#9a9a9a;letter-spacing:.1em;text-transform:uppercase;line-height:1.6;}
+  .type-row .meta b{color:var(--bone);display:block;margin-bottom:6px;font-weight:500;}
+  .type-row .sample{overflow:hidden;}
+  .s-display{font-family:'Anton',sans-serif;font-size:96px;line-height:.9;letter-spacing:.005em;text-transform:uppercase;color:var(--bone);}
+  .s-display em{font-style:normal;color:var(--red);}
+  .s-serif{font-family:'Instrument Serif',serif;font-style:italic;font-size:72px;line-height:1;color:var(--bone);}
+  .s-mono{font-family:'JetBrains Mono',monospace;font-size:18px;line-height:1.5;color:#cfcfcf;}
+  .s-pixel{font-family:'VT323',monospace;font-size:72px;line-height:.95;color:var(--red);letter-spacing:.02em;}
+  .s-arch{font-family:'Archivo Black',sans-serif;font-size:48px;line-height:1;color:var(--bone);text-transform:uppercase;}
+
+  /* ————— imagery placeholders (stripes per system) ————— */
+  .ph{position:relative;width:100%;height:100%;}
+  .ph::before{
+    content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(135deg,#1d1d1d 0 1px,transparent 1px 9px);
+  }
+  .ph.red::before{background:repeating-linear-gradient(135deg,rgba(255,0,0,.45) 0 1px,transparent 1px 9px);}
+  .ph.bone{background:var(--bone);}
+  .ph.bone::before{background:repeating-linear-gradient(135deg,rgba(10,10,10,.08) 0 1px,transparent 1px 9px);}
+  .ph .tag{position:absolute;inset:auto 0 auto 0;top:50%;transform:translateY(-50%);text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;color:#7a7a7a;text-transform:uppercase;}
+  .ph.bone .tag{color:#555;}
+  .ph.red .tag{color:var(--red);}
+
+  /* scan lines overlay */
+  .scan::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 3px);
+    mix-blend-mode:overlay;
+  }
+
+  /* pixel title block */
+  .pixel-block{
+    grid-column:span 2;aspect-ratio:2/1;background:var(--red);color:#0a0a0a;
+    position:relative;overflow:hidden;padding:28px;
+  }
+  .pixel-block h3{
+    font-family:'Bungee',sans-serif;font-size:96px;line-height:.88;letter-spacing:.02em;
+    color:#0a0a0a;text-transform:uppercase;
+  }
+  .pixel-block .corner{position:absolute;right:20px;top:20px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#0a0a0a;}
+  .pixel-block .bar{position:absolute;left:0;right:0;bottom:0;height:14px;background:repeating-linear-gradient(90deg,#0a0a0a 0 10px,transparent 10px 20px);}
+
+  /* slate card */
+  .slate{
+    aspect-ratio:1/1;background:var(--bone);color:var(--ink);padding:18px;display:flex;flex-direction:column;justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+    position:relative;overflow:hidden;
+  }
+  .slate .row{display:flex;justify-content:space-between;border-bottom:1px dashed #0a0a0a33;padding:6px 0;}
+  .slate .row:last-child{border-bottom:none;}
+  .slate::after{
+    content:"";position:absolute;inset:auto 0 0 0;height:18px;
+    background:repeating-linear-gradient(90deg,#0a0a0a 0 18px,var(--bone) 18px 36px);
+  }
+  .slate .head{font-family:'Anton',sans-serif;font-size:28px;letter-spacing:.03em;line-height:.95;color:var(--ink);}
+
+  /* quote card */
+  .quote{
+    aspect-ratio:1/1;background:var(--ink-2);padding:22px;display:flex;flex-direction:column;justify-content:space-between;
+    border:1px solid #222;
+  }
+  .quote p{font-family:'Instrument Serif',serif;font-style:italic;font-size:28px;line-height:1.2;color:var(--bone);}
+  .quote .who{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#8a8a8a;text-transform:uppercase;}
+
+  /* timecode strip */
+  .strip{
+    background:var(--ink-2);border:1px solid #222;padding:14px 18px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#9a9a9a;
+  }
+  .strip b{color:var(--red);font-weight:500;}
+  .strip .ticks{display:flex;gap:3px;}
+  .strip .ticks span{width:2px;height:14px;background:#2a2a2a;}
+  .strip .ticks span.on{background:var(--red);}
+
+  /* pixel art frame using conic/box-shadow pattern */
+  .pixel-logo{
+    aspect-ratio:1/1;background:var(--red);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:18px;
+  }
+  .pixel-logo img{width:82%;height:auto;display:block;image-rendering:pixelated;}
+
+  /* direction cards */
+  .dir{
+    grid-column:span 4;aspect-ratio:1/1.15;padding:22px;border:1px solid #222;
+    display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden;
+  }
+  .dir .id{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:var(--red);text-transform:uppercase;}
+  .dir h4{font-family:'Anton',sans-serif;font-size:44px;line-height:.95;letter-spacing:.02em;text-transform:uppercase;color:var(--bone);}
+  .dir .desc{font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;color:#b5b5b5;}
+  .dir-a{background:linear-gradient(180deg,#0a0a0a 0%,#140000 100%);}
+  .dir-a::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 30% 20%,rgba(255,0,0,.35),transparent 40%),
+      radial-gradient(circle at 80% 80%,rgba(255,60,30,.25),transparent 45%);
+    pointer-events:none;
+  }
+  .dir-b{background:var(--bone);color:var(--ink);}
+  .dir-b h4{color:var(--ink);}
+  .dir-b .desc{color:#3a3a3a;}
+  .dir-b .id{color:var(--red);}
+  .dir-c{background:var(--red);color:#0a0a0a;}
+  .dir-c h4,.dir-c .id{color:#0a0a0a;}
+  .dir-c .desc{color:#0a0a0a;}
+
+  /* footer */
+  footer{margin-top:120px;display:flex;justify-content:space-between;font-size:10px;letter-spacing:.2em;color:#5a5a5a;text-transform:uppercase;border-top:1px solid #222;padding-top:20px;}
+
+  /* glitch */
+  .glitch{position:relative;display:inline-block;}
+  .glitch::before,.glitch::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;}
+  .glitch::before{color:var(--red);transform:translate(3px,0);mix-blend-mode:screen;clip-path:polygon(0 0,100% 0,100% 38%,0 38%);}
+  .glitch::after{color:#00e0ff;transform:translate(-3px,0);mix-blend-mode:screen;clip-path:polygon(0 62%,100% 62%,100% 100%,0 100%);}
+
+</style>
+</head>
+<body>
+
+<!-- ───────────────── MASTHEAD ───────────────── -->
+<section class="mast">
+  <div class="mast-top">
+    <span>Red Studios / AI Film House — Moodboard v01</span>
+    <div class="right">
+      <span>LOC <b>India · Worldwide</b></span>
+      <span>REF <b>#RS-MB-01</b></span>
+      <span>DATE <b>20.04.26</b></span>
+    </div>
+  </div>
+  <h1 id="mast-h1">
+    <span id="mast-line1">BUILT<span class="slash"> / </span>IN</span><br/>
+    <em data-t="RENDER" class="glitch" id="mast-line2">RENDER</em>.
+  </h1>
+  <div class="mast-foot">
+    <div><div class="k">Studio</div><div class="v">Red Studios AI</div></div>
+    <div><div class="k">Craft</div><div class="v">Film · Ads · Shorts</div></div>
+    <div><div class="k">Engine</div><div class="v">Generative + Directed</div></div>
+    <div><div class="k">Origin</div><div class="v">India / Worldwide</div></div>
+  </div>
+</section>
+
+<!-- ───────────────── PULSE (the one-liner read) ───────────────── -->
+<section class="section">
+  <div class="section-hd">
+    <span class="n">00 / THE PULSE</span>
+    <h2>How it should feel</h2>
+    <span class="sub">one sentence · three words · one image</span>
+  </div>
+  <div class="grid g-12">
+    <div class="dir dir-a">
+      <span class="id">01 — Feel</span>
+      <h4>Cinematic<br/>& unhinged.</h4>
+      <div class="desc">A darkroom where frames are grown, not shot. The air smells of ozone and mogra. Red warning light on.</div>
+    </div>
+    <div class="dir dir-b">
+      <span class="id">02 — Tone</span>
+      <h4>Brutalist<br/>meets bollywood.</h4>
+      <div class="desc">Stenciled headlines. Hand-ticked slates. Masala palette reduced to a single scream of red on black.</div>
+    </div>
+    <div class="dir dir-c">
+      <span class="id">03 — Edge</span>
+      <h4>Pixel-raw,<br/>studio-finished.</h4>
+      <div class="desc">The logo already says it: jagged, rendered, defiant. Lean into that. The AI shows, we don't hide it.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── PALETTE ───────────────── -->
+<section class="section">
+  <div class="section-hd">
+    <span class="n">01 / PALETTE</span>
+    <h2>One red. Two blacks. One bone.</h2>
+    <span class="sub">no gradients in the identity · only in renders</span>
+  </div>
+  <div class="grid g-6">
+    <div class="swatch sw-red">
+      <div class="top"><span>PRIMARY</span><span>01</span></div>
+      <div><div class="name">Signal<br/>Red</div><div class="meta" style="margin-top:6px">#FF0000 · oklch(62% .28 29)</div></div>
+    </div>
+    <div class="swatch sw-ember">
+      <div class="top"><span>SECONDARY</span><span>02</span></div>
+      <div><div class="name">Ember</div><div class="meta" style="margin-top:6px">#FF3B1F · render-warm</div></div>
+    </div>
+    <div class="swatch sw-deep">
+      <div class="top"><span>SHADOW</span><span>03</span></div>
+      <div><div class="name">Oxblood</div><div class="meta" style="margin-top:6px">#B20000 · deep cuts</div></div>
+    </div>
+    <div class="swatch sw-ink">
+      <div class="top"><span>GROUND</span><span>04</span></div>
+      <div><div class="name">Ink</div><div class="meta" style="margin-top:6px">#0A0A0A · stage black</div></div>
+    </div>
+    <div class="swatch sw-ink2">
+      <div class="top"><span>CARD</span><span>05</span></div>
+      <div><div class="name">Soot</div><div class="meta" style="margin-top:6px">#151515 · near-black</div></div>
+    </div>
+    <div class="swatch sw-bone">
+      <div class="top"><span>LIGHT</span><span>06</span></div>
+      <div><div class="name">Bone</div><div class="meta" style="margin-top:6px">#F2EFE8 · warm off-white</div></div>
+    </div>
+  </div>
+  <div class="rule"></div>
+  <div class="strip">
+    <span>RATIO / <b>RED 10%</b> · INK 70% · BONE 15% · EMBER 5%</span>
+    <div class="ticks">
+      <span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span><span class="on"></span><span></span><span></span><span></span><span></span><span></span><span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span><span class="on"></span><span></span><span></span><span></span>
+    </div>
+    <span>USE RED LIKE A <b>SIREN</b>, NOT A WALL.</span>
+  </div>
+</section>
+
+<!-- ───────────────── TYPOGRAPHY ───────────────── -->
+<section class="section">
+  <div class="section-hd">
+    <span class="n">02 / TYPOGRAPHY</span>
+    <h2>Stencil, monospace, serif italic.</h2>
+    <span class="sub">headline / system / human</span>
+  </div>
+
+  <div class="type-row">
+    <div class="meta">
+      <b>ANTON</b>
+      Display · Headlines<br/>
+      Condensed, cinematic,<br/>reads at block-size scale.
+    </div>
+    <div class="sample s-display">INDIA'S <em>AI FILM</em> HOUSE.<br/>FRAMES <em>AT 24FPS</em>.</div>
+  </div>
+
+  <div class="type-row">
+    <div class="meta">
+      <b>BUNGEE / VT323</b>
+      Accent · Pixel-glitch<br/>
+      Echoes the logo's<br/>jagged letterforms.
+    </div>
+    <div class="sample s-pixel">REC ● 00:01:24:08 &nbsp;//&nbsp; RENDER_FRAME_0042</div>
+  </div>
+
+  <div class="type-row">
+    <div class="meta">
+      <b>JETBRAINS MONO</b>
+      Utility · Body · UI<br/>
+      Every number, caption,<br/>credit and caption.
+    </div>
+    <div class="sample s-mono">
+      DIRECTED_BY / generative_agent_v3<br/>
+      CAMERA / vision-XL · 35mm · f/1.8<br/>
+      SCORE / ambient_drone.waav &nbsp;·&nbsp; 128bpm<br/>
+      RUNTIME / 00:03:42 · aspect 2.39:1
+    </div>
+  </div>
+
+  <div class="type-row">
+    <div class="meta">
+      <b>INSTRUMENT SERIF</b>
+      Voice · Pull-quotes<br/>
+      The human in the room<br/>behind the machine.
+    </div>
+    <div class="sample s-serif">“We don't make content.<br/>We direct hallucinations.”</div>
+  </div>
+</section>
+
+<!-- ───────────────── IMAGERY SYSTEM ───────────────── -->
+<section class="section">
+  <div class="section-hd">
+    <span class="n">03 / IMAGERY</span>
+    <h2>Frames from films that don't exist yet.</h2>
+    <span class="sub">stills · slates · pixel echoes</span>
+  </div>
+
+  <div class="grid g-4">
+    <!-- row 1 -->
+    <div class="card scan"><div class="tl">STILL / 01</div><div class="ph"><div class="tag">[ NEON WET STREET · 3 AM ]</div></div><div class="label"><span>2.39:1</span><span>IMG_0142</span></div></div>
+    <div class="card scan"><div class="tl">STILL / 02</div><div class="ph red"><div class="tag">[ CLOSEUP · EYE · RED FILL LIGHT ]</div></div><div class="label"><span style="color:#ff4848">FILM_NOIR</span><span>IMG_0143</span></div></div>
+    <div class="pixel-logo">
+      <img src="assets/logo.png" alt="Red Studios logo" />
+    </div>
+    <div class="card scan"><div class="tl">STILL / 03</div><div class="ph"><div class="tag">[ DESERT HIGHWAY · VANISHING POINT ]</div></div><div class="label"><span>70MM</span><span>IMG_0144</span></div></div>
+
+    <!-- row 2 -->
+    <div class="slate">
+      <div class="head">SCENE 04 /<br/>TAKE 12</div>
+      <div>
+        <div class="row"><span>ROLL</span><span>A-007</span></div>
+        <div class="row"><span>DAY/NT</span><span>NT · INT</span></div>
+        <div class="row"><span>CAM</span><span>GEN-XL</span></div>
+        <div class="row"><span>SEED</span><span>42 · 99</span></div>
+      </div>
+    </div>
+    <div class="card scan"><div class="tl">STILL / 04</div><div class="ph"><div class="tag">[ SAREE FABRIC MACRO · WIND ]</div></div><div class="label"><span>MACRO</span><span>IMG_0145</span></div></div>
+    <div class="card scan"><div class="tl">STILL / 05</div><div class="ph"><div class="tag">[ MONSOON · CHAI STALL · STEAM ]</div></div><div class="label"><span>DOC</span><span>IMG_0146</span></div></div>
+    <div class="quote">
+      <p>"Red like a heartbeat,<br/>red like a curtain rising,<br/>red like the REC dot."</p>
+      <div class="who">— direction note · studio.01</div>
+    </div>
+
+    <!-- row 3 -->
+    <div class="pixel-block">
+      <span class="corner">RENDER · 24FPS · LOOP</span>
+      <h3>FRAMES<br/>BORN IN<br/>THE DARK.</h3>
+      <div class="bar"></div>
+    </div>
+    <div class="card scan"><div class="tl">STILL / 06</div><div class="ph red"><div class="tag">[ CROWD · BLURRED · FESTIVAL LIGHT ]</div></div><div class="label"><span>CROWD</span><span>IMG_0147</span></div></div>
+    <div class="card scan"><div class="tl">STILL / 07</div><div class="ph"><div class="tag">[ SINGLE LAMP · SMOKE · PROFILE ]</div></div><div class="label"><span>PORTRAIT</span><span>IMG_0148</span></div></div>
+  </div>
+
+  <div class="rule"></div>
+  <div class="mono" style="color:#7a7a7a">
+    <span class="tick"></span>SHOOTING RULES —
+    high contrast · single key light · practical reds preferred · wide anamorphic or square 1:1 · no beauty gloss · grain welcome · show the artifact
+  </div>
+</section>
+
+<!-- ───────────────── MOTION / TEXTURE ───────────────── -->
+<section class="section">
+  <div class="section-hd">
+    <span class="n">04 / MOTION &amp; TEXTURE</span>
+    <h2>Scanlines, shutter, seed.</h2>
+    <span class="sub">the AI fingerprint, intentional</span>
+  </div>
+
+  <div class="grid g-3">
+    <div class="card scan" style="aspect-ratio:4/3;background:#111;">
+      <div class="tl" style="color:var(--red)">SCAN ░░ ON</div>
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,0,0,.05) 0 2px,transparent 2px 5px);"></div>
+      <div class="label"><span>CRT</span><span>TEX_001</span></div>
+    </div>
+    <div class="card" style="aspect-ratio:4/3;background:#0a0a0a;">
+      <div class="tl">PIXEL-GRID</div>
+      <div style="position:absolute;inset:16px;background:
+        linear-gradient(90deg,#1a1a1a 1px,transparent 1px) 0 0/24px 24px,
+        linear-gradient(0deg,#1a1a1a 1px,transparent 1px) 0 0/24px 24px;"></div>
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:40%;aspect-ratio:1;background:var(--red);clip-path:polygon(0 0,100% 0,100% 20%,80% 20%,80% 40%,100% 40%,100% 100%,20% 100%,20% 80%,0 80%);"></div>
+      <div class="label"><span style="color:#ff4848">SHAPE</span><span>TEX_002</span></div>
+    </div>
+    <div class="card" style="aspect-ratio:4/3;background:var(--red);">
+      <div class="tl" style="color:#0a0a0a">SHUTTER</div>
+      <div style="position:absolute;inset:0;background:repeating-linear-gradient(90deg,#0a0a0a 0 4px,transparent 4px 20px);opacity:.45;"></div>
+      <div style="position:absolute;right:12px;bottom:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;color:#0a0a0a;">f/1.8 · 1/48s</div>
+    </div>
+  </div>
+
+  <div class="grid g-4" style="margin-top:14px;">
+    <div class="strip" style="grid-column:span 2;">
+      <span>TIMECODE / <b>01:24:08:12</b></span>
+      <div class="ticks">
+        <span></span><span class="on"></span><span></span><span></span><span></span><span class="on"></span><span></span><span></span><span></span><span></span><span class="on"></span><span></span><span></span><span></span><span class="on"></span><span></span><span></span><span></span><span class="on"></span><span></span>
+      </div>
+      <span>GEN · <b>RENDERING</b></span>
+    </div>
+    <div class="strip">
+      <span>SEED</span><span><b>042 · 0xFE</b></span><span>LOCK</span>
+    </div>
+    <div class="strip">
+      <span>FPS</span><span><b>24.000</b></span><span>STABLE</span>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── VOICE ───────────────── -->
+<section class="section">
+  <div class="section-hd">
+    <span class="n">05 / VOICE</span>
+    <h2>Short. Loaded. Directed.</h2>
+    <span class="sub">taglines to test, not to keep</span>
+  </div>
+  <div class="grid g-3">
+    <div class="dir" style="grid-column:span 1;background:#0a0a0a;"><span class="id">TAGLINE A</span><h4 style="font-size:34px">India's AI<br/>film house.</h4><div class="desc">Plainspoken. Plants the flag.</div></div>
+    <div class="dir" style="grid-column:span 1;background:#0a0a0a;"><span class="id">TAGLINE B</span><h4 style="font-size:34px">Direct the<br/>hallucination.</h4><div class="desc">Positions the craft, not the tool.</div></div>
+    <div class="dir" style="grid-column:span 1;background:#0a0a0a;"><span class="id">TAGLINE C</span><h4 style="font-size:34px">24 frames.<br/>Zero cameras.</h4><div class="desc">The provocation. Honest about the medium.</div></div>
+    <div class="dir" style="grid-column:span 1;background:var(--red);color:#0a0a0a;"><span class="id" style="color:#0a0a0a">TAGLINE D</span><h4 style="font-size:34px;color:#0a0a0a">Lights.<br/>Camera.<br/>Compute.</h4><div class="desc" style="color:#0a0a0a">Cheeky. Plays on the oldest phrase in film.</div></div>
+    <div class="dir" style="grid-column:span 1;background:var(--bone);color:var(--ink);"><span class="id">TAGLINE E</span><h4 style="font-size:34px;color:var(--ink)">Made of<br/>light and<br/>latent space.</h4><div class="desc" style="color:#3a3a3a">Poetic. For the about page.</div></div>
+    <div class="dir" style="grid-column:span 1;background:#0a0a0a;"><span class="id">TAGLINE F</span><h4 style="font-size:34px">Studio of<br/>the unreal.</h4><div class="desc">Owns the medium without naming the tool.</div></div>
+  </div>
+</section>
+
+<!-- ───────────────── WHAT'S NEXT ───────────────── -->
+<section class="section">
+  <div class="section-hd">
+    <span class="n">06 / NEXT</span>
+    <h2>What I'll build for the landing page.</h2>
+    <span class="sub">pick a lane · or mix</span>
+  </div>
+  <div class="grid g-3">
+    <div class="dir" style="grid-column:span 1;aspect-ratio:1/1.2;background:#0a0a0a;">
+      <span class="id">LANE 1 — CINEMA</span>
+      <h4>The Dark<br/>Theater.</h4>
+      <div class="desc">Full-bleed hero reel looping behind jagged stencil type. Red only as accent + REC dot. Scroll reveals work as "reels," framed 2.39:1. Feels like entering a screening room.</div>
+    </div>
+    <div class="dir" style="grid-column:span 1;aspect-ratio:1/1.2;background:var(--red);color:#0a0a0a;">
+      <span class="id" style="color:#0a0a0a">LANE 2 — LAB</span>
+      <h4 style="color:#0a0a0a">The Render<br/>Floor.</h4>
+      <div class="desc" style="color:#0a0a0a">Page-as-interface. Seeds, frames, timecodes as UI. Hero is a live-looking "render in progress." Lean into the AI provenance — show the seams.</div>
+    </div>
+    <div class="dir" style="grid-column:span 1;aspect-ratio:1/1.2;background:var(--bone);color:var(--ink);">
+      <span class="id">LANE 3 — ATELIER</span>
+      <h4 style="color:var(--ink)">The Red<br/>Atelier.</h4>
+      <div class="desc" style="color:#3a3a3a">Editorial, print-magazine feel. Serif italic pull-quotes, wide margins, grid of films like a Criterion spread. Quietly confident — "the best, and we don't have to yell."</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>RED STUDIOS · MOODBOARD v01</span>
+  <span>© 2026 · NO FRAMES WERE SHOT IN THE MAKING OF THIS DOCUMENT</span>
+  <span>END / / /</span>
+</footer>
+
+<!-- ───────────────── TWEAKS PANEL ───────────────── -->
+<div id="tweaks-panel" hidden>
+  <div class="tw-head">
+    <span class="tw-dot"></span>
+    <strong>Tweaks</strong>
+    <span class="tw-meta">RS · MOOD v01</span>
+  </div>
+
+  <div class="tw-row">
+    <label>Signal Red</label>
+    <div class="tw-swatches" id="tw-red">
+      <button data-v="#FF0000" style="background:#FF0000" aria-label="Pure red"></button>
+      <button data-v="#E50914" style="background:#E50914" aria-label="Crimson"></button>
+      <button data-v="#FF3B1F" style="background:#FF3B1F" aria-label="Ember"></button>
+      <button data-v="#D7263D" style="background:#D7263D" aria-label="Rose"></button>
+      <button data-v="#B20000" style="background:#B20000" aria-label="Oxblood"></button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>Ground</label>
+    <div class="tw-seg" id="tw-ground">
+      <button data-v="dark">Ink</button>
+      <button data-v="light">Bone</button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>Display Type</label>
+    <div class="tw-seg" id="tw-display">
+      <button data-v="Anton">Anton</button>
+      <button data-v="Archivo Black">Archivo</button>
+      <button data-v="Bungee">Bungee</button>
+    </div>
+  </div>
+
+  <div class="tw-row">
+    <label>Headline Line 1</label>
+    <input id="tw-line1" type="text" />
+  </div>
+  <div class="tw-row">
+    <label>Headline Line 2</label>
+    <input id="tw-line2" type="text" />
+  </div>
+
+  <div class="tw-row">
+    <label>Red intensity <span class="tw-val" id="tw-int-v">100%</span></label>
+    <input id="tw-intensity" type="range" min="60" max="130" step="1" />
+  </div>
+
+  <div class="tw-row">
+    <label>Grain</label>
+    <div class="tw-seg" id="tw-grain">
+      <button data-v="off">Off</button>
+      <button data-v="low">Low</button>
+      <button data-v="high">High</button>
+    </div>
+  </div>
+
+  <div class="tw-foot">
+    <button id="tw-reset">Reset</button>
+    <span>Live · saved on change</span>
+  </div>
+</div>
+
+<style>
+  /* Tweaks panel */
+  #tweaks-panel{
+    position:fixed; right:20px; bottom:20px; z-index:9999;
+    width:300px; background:#0a0a0a; color:#e9e9e9;
+    border:1px solid #2a2a2a; box-shadow:0 20px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,0,0,.15);
+    font-family:'JetBrains Mono',ui-monospace,monospace; font-size:11px;
+    padding:14px 16px 12px;
+  }
+  #tweaks-panel .tw-head{display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid #1f1f1f;margin-bottom:12px;letter-spacing:.15em;text-transform:uppercase;}
+  #tweaks-panel .tw-head strong{font-family:'Anton',sans-serif;font-weight:400;font-size:18px;letter-spacing:.06em;}
+  #tweaks-panel .tw-head .tw-dot{width:8px;height:8px;background:var(--red);display:inline-block;animation:tw-pulse 1.4s infinite;}
+  #tweaks-panel .tw-head .tw-meta{margin-left:auto;color:#6a6a6a;font-size:9px;}
+  @keyframes tw-pulse{0%,100%{opacity:1}50%{opacity:.3}}
+  #tweaks-panel .tw-row{margin:10px 0;}
+  #tweaks-panel label{display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#8a8a8a;margin-bottom:6px;}
+  #tweaks-panel .tw-val{color:var(--red);}
+  #tweaks-panel .tw-swatches{display:flex;gap:6px;}
+  #tweaks-panel .tw-swatches button{width:36px;height:24px;border:1px solid #2a2a2a;cursor:pointer;padding:0;outline:none;}
+  #tweaks-panel .tw-swatches button[data-active="1"]{outline:1px solid #fff;outline-offset:2px;}
+  #tweaks-panel .tw-seg{display:flex;border:1px solid #2a2a2a;}
+  #tweaks-panel .tw-seg button{flex:1;background:transparent;color:#cfcfcf;border:none;border-right:1px solid #2a2a2a;padding:8px 6px;font:inherit;font-size:10px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;}
+  #tweaks-panel .tw-seg button:last-child{border-right:none;}
+  #tweaks-panel .tw-seg button[data-active="1"]{background:var(--red);color:#0a0a0a;}
+  #tweaks-panel input[type="text"]{width:100%;background:#141414;border:1px solid #2a2a2a;color:#e9e9e9;padding:8px 10px;font:inherit;font-size:11px;letter-spacing:.06em;outline:none;}
+  #tweaks-panel input[type="text"]:focus{border-color:var(--red);}
+  #tweaks-panel input[type="range"]{width:100%;accent-color:var(--red);}
+  #tweaks-panel .tw-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #1f1f1f;padding-top:10px;margin-top:12px;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#6a6a6a;}
+  #tweaks-panel .tw-foot button{background:transparent;border:1px solid #2a2a2a;color:#cfcfcf;padding:5px 9px;font:inherit;font-size:9px;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;}
+  #tweaks-panel .tw-foot button:hover{border-color:var(--red);color:var(--red);}
+
+  /* Light ground variant */
+  body.tw-light{background:var(--bone);color:var(--ink);}
+  body.tw-light .mast{background:repeating-linear-gradient(90deg,transparent 0 79px,#dcd6c5 79px 80px),var(--bone);border-color:#cfc8b4;}
+  body.tw-light .mast h1, body.tw-light .section-hd h2, body.tw-light .swatch.sw-ink .name, body.tw-light .swatch.sw-ink2 .name{color:var(--ink);}
+  body.tw-light .mast-top, body.tw-light .mast-foot div .k{color:#666;}
+  body.tw-light .card, body.tw-light .quote, body.tw-light .strip, body.tw-light .dir{background:#fff;border-color:#cfc8b4;}
+  body.tw-light .quote p, body.tw-light .dir h4, body.tw-light .s-display, body.tw-light .s-mono, body.tw-light .s-arch, body.tw-light .s-serif{color:var(--ink);}
+  body.tw-light .type-row{border-color:#cfc8b4;}
+  body.tw-light .swatch.sw-ink, body.tw-light .swatch.sw-ink2{color:var(--bone);}
+
+  /* Grain overlay */
+  body.tw-grain-low::before, body.tw-grain-high::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:9998;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode:overlay;
+  }
+  body.tw-grain-low::before{opacity:.18;}
+  body.tw-grain-high::before{opacity:.42;}
+</style>
+
+<script>
+(function(){
+  const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "red": "#FF0000",
+    "ground": "dark",
+    "display": "Anton",
+    "line1": "BUILT \/ IN",
+    "line2": "RENDER",
+    "intensity": 100,
+    "grain": "off"
+  }/*EDITMODE-END*/;
+
+  const state = { ...TWEAK_DEFAULTS };
+  try {
+    const saved = JSON.parse(localStorage.getItem('rs-tweaks') || '{}');
+    Object.assign(state, saved);
+  } catch(e){}
+
+  const panel = document.getElementById('tweaks-panel');
+  const $ = (s) => document.getElementById(s);
+  const root = document.documentElement;
+
+  function persist(){
+    localStorage.setItem('rs-tweaks', JSON.stringify(state));
+    try { window.parent.postMessage({type:'__edit_mode_set_keys', edits: state}, '*'); } catch(e){}
+  }
+
+  function applyAll(){
+    // Red color + intensity
+    const red = state.red;
+    const intensity = state.intensity / 100;
+    root.style.setProperty('--red', adjust(red, intensity));
+    // Ground
+    document.body.classList.toggle('tw-light', state.ground === 'light');
+    // Display font
+    document.querySelectorAll('.section-hd h2, .mast h1, .s-display, .dir h4, .swatch .name, .slate .head, .pixel-block h3, .mast-foot div .v')
+      .forEach(el => el.style.fontFamily = `'${state.display}', sans-serif`);
+    // Headlines
+    if ($('mast-line1')) $('mast-line1').innerHTML = state.line1.replace('/', '<span class="slash"> / </span>');
+    const l2 = $('mast-line2');
+    if (l2){ l2.textContent = state.line2; l2.setAttribute('data-t', state.line2); }
+    // Grain
+    document.body.classList.remove('tw-grain-low','tw-grain-high');
+    if (state.grain !== 'off') document.body.classList.add('tw-grain-' + state.grain);
+    // Reflect active states in panel
+    document.querySelectorAll('#tw-red button').forEach(b => b.dataset.active = b.dataset.v === state.red ? '1' : '0');
+    document.querySelectorAll('#tw-ground button').forEach(b => b.dataset.active = b.dataset.v === state.ground ? '1' : '0');
+    document.querySelectorAll('#tw-display button').forEach(b => b.dataset.active = b.dataset.v === state.display ? '1' : '0');
+    document.querySelectorAll('#tw-grain button').forEach(b => b.dataset.active = b.dataset.v === state.grain ? '1' : '0');
+    $('tw-line1').value = state.line1;
+    $('tw-line2').value = state.line2;
+    $('tw-intensity').value = state.intensity;
+    $('tw-int-v').textContent = state.intensity + '%';
+  }
+
+  // Adjust red by intensity (mix toward black if <100, toward white if >100)
+  function adjust(hex, k){
+    const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+    let nr, ng, nb;
+    if (k <= 1) { nr = r*k; ng = g*k; nb = b*k; }
+    else { const t = k-1; nr = r + (255-r)*t*0.6; ng = g + (255-g)*t*0.6; nb = b + (255-b)*t*0.6; }
+    return '#' + [nr,ng,nb].map(v => Math.max(0,Math.min(255,Math.round(v))).toString(16).padStart(2,'0')).join('');
+  }
+
+  function bind(groupId, key, type){
+    document.querySelectorAll(`#${groupId} button`).forEach(b => {
+      b.addEventListener('click', () => { state[key] = b.dataset.v; applyAll(); persist(); });
+    });
+  }
+  bind('tw-red','red');
+  bind('tw-ground','ground');
+  bind('tw-display','display');
+  bind('tw-grain','grain');
+  $('tw-line1').addEventListener('input', e => { state.line1 = e.target.value; applyAll(); persist(); });
+  $('tw-line2').addEventListener('input', e => { state.line2 = e.target.value; applyAll(); persist(); });
+  $('tw-intensity').addEventListener('input', e => { state.intensity = +e.target.value; applyAll(); persist(); });
+  $('tw-reset').addEventListener('click', () => { Object.assign(state, TWEAK_DEFAULTS); applyAll(); persist(); });
+
+  // Edit-mode protocol
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.type === '__activate_edit_mode') panel.hidden = false;
+    if (d.type === '__deactivate_edit_mode') panel.hidden = true;
+  });
+
+  // Apply current state on load (so persisted state shows even before panel toggled)
+  applyAll();
+
+  try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e){}
+})();
+</script>
+
+</body>
+</html>

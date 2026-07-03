@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Red Studios — Hero 3D options (interactive)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #0a0a0a;
+      --ink2: #151515;
+      --red: #ff0000;
+      --ember: #ff3b1f;
+      --bone: #f2efe8;
+      --line: #2a2a2a;
+      --muted: #7a7a7a;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      background: var(--ink);
+      color: var(--bone);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      padding: 28px 20px 80px;
+      max-width: 1520px;
+      margin: 0 auto;
+    }
+    .page-hd {
+      border: 1px solid var(--line);
+      padding: 22px 24px;
+      margin-bottom: 28px;
+      background: repeating-linear-gradient(90deg, transparent 0 79px, #141414 79px 80px), var(--ink);
+    }
+    .page-hd h1 {
+      font-family: Anton, sans-serif;
+      font-weight: 400;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .page-hd h1 em { font-style: normal; color: var(--red); }
+    .page-hd p { color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; font-size: 11px; max-width: 820px; }
+    .page-hd a { color: var(--ember); }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 22px;
+    }
+    .card {
+      border: 1px solid var(--line);
+      background: var(--ink2);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-hd {
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .card-hd .n {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .card-hd h2 {
+      font-family: Anton, sans-serif;
+      font-weight: 400;
+      font-size: 20px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .card-hd p { color: #9a9a9a; font-size: 11px; letter-spacing: 0.06em; }
+    .viewport {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      min-height: 220px;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, #120505 0%, #050505 70%);
+      cursor: grab;
+      touch-action: none;
+    }
+    .viewport:active { cursor: grabbing; }
+    .viewport canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .hint {
+      position: absolute;
+      left: 10px;
+      bottom: 8px;
+      z-index: 2;
+      pointer-events: none;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(242, 239, 232, 0.45);
+      text-shadow: 0 1px 8px #000;
+    }
+    .pulse-tag {
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      z-index: 2;
+      pointer-events: none;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      opacity: 0;
+      transition: opacity 0.12s;
+      text-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+    }
+    .pulse-tag.on { opacity: 1; }
+  </style>
+</head>
+<body>
+  <header class="page-hd">
+    <h1>Hero 3D — <em>interactive</em> previews</h1>
+    <p>
+      Each panel: <b>move</b> pointer for parallax · <b>drag</b> to orbit / steer · <b>click or tap</b> for a render “pulse.”
+      Pick a number, then we fold it into <code>Hero3D</code> on the main site.
+      <a href="Landing%20Page.html">Landing Page.html</a>
+    </p>
+  </header>
+
+  <div class="grid" id="cards"></div>
+
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script>
+(function () {
+  const OPTS = [
+    { title: "Render passes stack", body: "Drag tilts the pass stack. Move = parallax. Click = burst opacity + push in Z.", init: initPasses },
+    { title: "Film strip ribbon", body: "Drag spins ribbon. Move warps ribbon in space. Click = snap + ember flash.", init: initStrip },
+    { title: "Keyframe ring", body: "Drag scrubs orbit. Move offsets wave height on keys. Click = keyframes pop radially.", init: initRing },
+    { title: "Latent seed crystal", body: "Drag orbits camera. Move aims rim light. Click = core flare + spark scatter.", init: initCrystal },
+    { title: "Iris / gate", body: "Move X opens / closes blades. Drag rotates gate. Click = slam shut → release.", init: initIris },
+    { title: "Pixel wall", body: "Move shifts wave origin. Drag rotates wall. Click = shockwave through lattice.", init: initPixels },
+    { title: "Stage grid floor", body: "Drag dollies camera. Move steers horizon bar. Click = sync flash on grid.", init: initGridFloor },
+  ];
+
+  const cardsEl = document.getElementById("cards");
+  OPTS.forEach((opt, i) => {
+    const card = document.createElement("article");
+    card.className = "card";
+    card.innerHTML =
+      '<div class="card-hd">' +
+      '<div class="n">Option ' + (i + 1) + " / " + OPTS.length + "</div>" +
+      "<h2>" + opt.title + "</h2>" +
+      "<p>" + opt.body + "</p>" +
+      '</div><div class="viewport" id="vp-' + i + '" tabindex="0">' +
+      '<span class="hint">Move · drag · click</span>' +
+      '<span class="pulse-tag" data-pulse="' + i + '">PULSE</span>' +
+      "</div>";
+    cardsEl.appendChild(card);
+    opt.mount = card.querySelector(".viewport");
+    opt.pulseEl = card.querySelector("[data-pulse]");
+  });
+
+  function sizeRenderer(renderer, mount) {
+    const w = mount.clientWidth;
+    const h = mount.clientHeight;
+    if (w < 2 || h < 2) return;
+    renderer.setSize(w, h, false);
+    return { w, h };
+  }
+
+  function baseScene(mount) {
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x0a0a0a, 3.5, 22);
+    const cam = new THREE.PerspectiveCamera(48, 16 / 10, 0.08, 120);
+    cam.position.set(0, 0.15, 5.4);
+    cam.lookAt(0, 0, 0);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+    mount.appendChild(renderer.domElement);
+    sizeRenderer(renderer, mount);
+    const key = new THREE.DirectionalLight(0xff2200, 2.6);
+    key.position.set(4, 2.5, 5);
+    scene.add(key);
+    const rim = new THREE.DirectionalLight(0x00e8ff, 0.85);
+    rim.position.set(-4, -1.5, -3);
+    scene.add(rim);
+    scene.add(new THREE.AmbientLight(0x1a1a1a, 0.9));
+    const fill = new THREE.PointLight(0xff0000, 0, 14);
+    fill.position.set(0, 1.2, 2);
+    scene.add(fill);
+    return { scene, cam, renderer, key, rim, fill };
+  }
+
+  /** Pointer: smoothed -1..1, pulse 0..1 decay, drag accum while down */
+  function attachPointer(mount, pulseEl) {
+    const ptr = {
+      tx: 0, ty: 0, mx: 0, my: 0,
+      pulse: 0,
+      down: false,
+      dragX: 0, dragY: 0,
+      velX: 0, velY: 0,
+    };
+    function norm(e) {
+      const r = mount.getBoundingClientRect();
+      return {
+        x: ((e.clientX - r.left) / Math.max(1, r.width) - 0.5) * 2,
+        y: ((e.clientY - r.top) / Math.max(1, r.height) - 0.5) * 2,
+      };
+    }
+    function bumpPulse() {
+      ptr.pulse = 1;
+      if (pulseEl) {
+        pulseEl.classList.add("on");
+        setTimeout(() => pulseEl.classList.remove("on"), 140);
+      }
+    }
+    mount.addEventListener("pointermove", (e) => {
+      const p = norm(e);
+      ptr.tx = p.x;
+      ptr.ty = p.y;
+      if (ptr.down) {
+        ptr.dragX += e.movementX * 0.011;
+        ptr.dragY += e.movementY * 0.011;
+      }
+    });
+    mount.addEventListener("pointerdown", (e) => {
+      ptr.down = true;
+      mount.setPointerCapture(e.pointerId);
+      bumpPulse();
+    });
+    mount.addEventListener("pointerup", (e) => {
+      ptr.down = false;
+      try { mount.releasePointerCapture(e.pointerId); } catch (_) {}
+    });
+    mount.addEventListener("pointercancel", () => { ptr.down = false; });
+    mount.addEventListener("pointerleave", (e) => {
+      if (!ptr.down) {
+        ptr.tx *= 0.5;
+        ptr.ty *= 0.5;
+      }
+    });
+    return ptr;
+  }
+
+  function interactiveLoop(mount, scene, cam, renderer, ptr, update) {
+    let raf;
+    const t0 = performance.now();
+    function tick() {
+      const t = (performance.now() - t0) / 1000;
+      ptr.mx += (ptr.tx - ptr.mx) * 0.11;
+      ptr.my += (ptr.ty - ptr.my) * 0.11;
+      ptr.pulse *= 0.88;
+      ptr.velX = ptr.mx * 0.04;
+      ptr.velY = ptr.my * 0.04;
+      if (!ptr.down) {
+        ptr.dragX *= 0.94;
+        ptr.dragY *= 0.94;
+      }
+      update(t, ptr);
+      renderer.render(scene, cam);
+      raf = requestAnimationFrame(tick);
+    }
+    tick();
+    const ro = new ResizeObserver(() => {
+      const s = sizeRenderer(renderer, mount);
+      if (s) {
+        cam.aspect = s.w / s.h;
+        cam.updateProjectionMatrix();
+      }
+    });
+    ro.observe(mount);
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      renderer.dispose();
+      if (renderer.domElement.parentNode === mount) mount.removeChild(renderer.domElement);
+    };
+  }
+
+  function wire(opt, initFn) {
+    const ptr = attachPointer(opt.mount, opt.pulseEl);
+    return initFn(opt.mount, ptr);
+  }
+
+  /* --- 1 Passes --- */
+  function initPasses(mount, ptr) {
+    const { scene, cam, renderer, fill } = baseScene(mount);
+    fill.intensity = 0.8;
+    const group = new THREE.Group();
+    scene.add(group);
+    const mats = [];
+    for (let i = 0; i < 7; i++) {
+      const z = -0.62 + i * 0.2;
+      const g = new THREE.PlaneGeometry(3.4, 4.4);
+      const m = new THREE.MeshBasicMaterial({
+        color: i === 3 ? 0xff3b1f : 0xff0000,
+        transparent: true,
+        opacity: i === 3 ? 0.16 : 0.07,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      });
+      mats.push(m);
+      const mesh = new THREE.Mesh(g, m);
+      mesh.position.z = z;
+      mesh.rotation.y = (i - 3) * 0.1;
+      mesh.rotation.x = (i - 3) * 0.05;
+      group.add(mesh);
+    }
+    const burst = new THREE.Group();
+    scene.add(burst);
+    for (let i = 0; i < 40; i++) {
+      const b = new THREE.Mesh(
+        new THREE.BoxGeometry(0.04, 0.04, 0.12),
+        new THREE.MeshBasicMaterial({ color: 0xff3b1f, transparent: true, opacity: 0 })
+      );
+      b.userData = { a: Math.random() * 6.28, v: 0.4 + Math.random() * 1.2, y: (Math.random() - 0.5) * 3 };
+      burst.add(b);
+    }
+    return interactiveLoop(mount, scene, cam, renderer, ptr, (t, p) => {
+      const pl = p.pulse;
+      fill.intensity = 0.5 + pl * 4;
+      group.rotation.y = Math.sin(t * 0.4) * 0.1 + p.mx * 0.45 + p.dragX * 0.6;
+      group.rotation.x = Math.sin(t * 0.28) * 0.08 + p.my * 0.35 - p.dragY * 0.45;
+      group.position.z = pl * 0.35;
+      mats.forEach((mat, i) => {
+        mat.opacity = 0.04 + Math.sin(t * 1.6 + i * 0.45) * 0.04 + (i === 3 ? 0.1 : 0) + pl * 0.22;
+      });
+      burst.children.forEach((b) => {
+        const u = b.userData;
+        const sp = pl * u.v * 3.5;
+        b.position.set(Math.cos(u.a) * sp * 0.6, u.y * pl, Math.sin(u.a) * sp * 0.6);
+        b.material.opacity = pl * 0.55;
+      });
+      cam.position.x = p.mx * 0.35;
+      cam.position.y = 0.15 - p.my * 0.22;
+      cam.lookAt(0, 0, 0);
+    });
+  }
+
+  /* --- 2 Strip --- */
+  function initStrip(mount, ptr) {
+    const { scene, cam, renderer, fill } = baseScene(mount);
+    fill.intensity = 0.6;
+    const curve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(-2.5, -0.65, 0.15),
+      new THREE.Vector3(-1.2, 0.45, 0.55),
+      new THREE.Vector3(0, 0.08, 0),
+      new THREE.Vector3(1.15, -0.4, -0.45),
+      new THREE.Vector3(2.45, 0.55, 0.12),
+    ]);
+    const group = new THREE.Group();
+    scene.add(group);
+    const meshes = [];
+    const n = 52;
+    const segGeo = new THREE.BoxGeometry(0.15, 0.24, 0.07);
+    for (let i = 0; i < n; i++) {
+      const mesh = new THREE.Mesh(
+        segGeo,
+        new THREE.MeshStandardMaterial({
+          color: i % 5 === 0 ? 0xff0000 : 0x242424,
+          emissive: i % 5 === 0 ? 0xff2200 : 0x000000,
+          emissiveIntensity: i % 5 === 0 ? 0.55 : 0,
+          roughness: 0.45,
+          metalness: 0.4,
+        })
+      );
+      meshes.push(mesh);
+      group.add(mesh);
+    }
+    function placeStrip() {
+      for (let i = 0; i < n; i++) {
+        const u = i / (n - 1);
+        const p = curve.getPoint(u);
+        const tang = curve.getTangent(u);
+        const mesh = meshes[i];
+        mesh.position.copy(p);
+        mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), tang);
+      }
+    }
+    placeStrip();
+    return interactiveLoop(mount, scene, cam, renderer, ptr, (t, p) => {
+      const pl = p.pulse;
+      fill.intensity = 0.4 + pl * 5;
+      const pts = curve.points;
+      for (let k = 0; k < pts.length; k++) {
+        const w = Math.sin(t * 0.8 + k) * 0.08 * p.mx + Math.cos(t * 0.6 + k) * 0.06 * p.my;
+        curve.points[k].y = [
+          -0.65, 0.45, 0.08, -0.4, 0.55,
+        ][k] + w;
+      }
+      curve.updateArcLengths();
+      placeStrip();
+      group.rotation.y = t * 0.22 + p.dragX * 1.8;
+      group.rotation.x = Math.sin(t * 0.35) * 0.1 + p.dragY * 1.2;
+      group.scale.setScalar(1 + pl * 0.35);
+      meshes.forEach((mesh, i) => {
+        if (i % 5 === 0) mesh.material.emissiveIntensity = 0.45 + pl * 2.5;
+      });
+      cam.position.x = p.mx * 0.4;
+      cam.position.y = 0.12 - p.my * 0.25;
+      cam.lookAt(0, 0.1, 0);
+    });
+  }
+
+  /* --- 3 Ring --- */
+  function initRing(mount, ptr) {
+    const { scene, cam, renderer, fill } = baseScene(mount);
+    fill.intensity = 0.5;
+    const group = new THREE.Group();
+    scene.add(group);
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(1.28, 0.038, 18, 140),
+      new THREE.MeshStandardMaterial({
+        color: 0x141414,
+        emissive: 0xff0000,
+        emissiveIntensity: 0.22,
+        roughness: 0.42,
+        metalness: 0.55,
+      })
+    );
+    group.add(ring);
+    const nk = 16;
+    const g = new THREE.BoxGeometry(0.13, 0.13, 0.13);
+    const keys = [];
+    for (let i = 0; i < nk; i++) {
+      const mesh = new THREE.Mesh(
+        g,
+        new THREE.MeshStandardMaterial({
+          color: i % 3 === 0 ? 0xff0000 : 0xf0ebe0,
+          emissive: i % 3 === 0 ? 0x550000 : 0x000000,
+          emissiveIntensity: 0.5,
+          roughness: 0.38,
+        })
+      );
+      keys.push({ mesh, a: (i / nk) * Math.PI * 2 });
+      group.add(mesh);
+    }
+    let pop = 0;
+    return interactiveLoop(mount, scene, cam, renderer, ptr, (t, p) => {
+      if (p.pulse > 0.85) pop = 1;
+      pop *= 0.9;
+      const pl = p.pulse;
+      fill.intensity = 0.45 + pl * 4;
+      group.rotation.x = 0.38 + Math.sin(t * 0.45) * 0.12 + p.my * 0.35;
+      group.rotation.y = t * 0.38 + p.dragX * 2.2;
+      group.rotation.z = p.dragY * 0.8;
+      const R = 1.28 + pop * 0.45;
+      keys.forEach((k) => {
+        const a = k.a + t * 0.18 + p.mx * 0.4;
+        const lift = Math.sin(a * 3 + t * 1.4) * 0.14 + p.my * 0.2;
+        k.mesh.position.set(Math.cos(a) * R, lift, Math.sin(a) * R);
+        k.mesh.scale.setScalar(1 + pl * 0.6 + pop * 0.4);
+        k.mesh.rotation.x = t * 2.2;
+        k.mesh.rotation.y = t * 1.7;
+      });
+      ring.material.emissiveIntensity = 0.18 + pl * 1.2 + pop * 0.8;
+      cam.position.x = p.mx * 0.38;
+      cam.position.y = 0.1 - p.my * 0.2;
+      cam.lookAt(0, 0, 0);
+    });
+  }
+
+  /* --- 4 Crystal --- */
+  function initCrystal(mount, ptr) {
+    const { scene, cam, renderer, fill } = baseScene(mount);
+    fill.intensity = 0.3;
+    const mesh = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(1.18, 0),
+      new THREE.MeshStandardMaterial({
+        color: 0xff1a1a,
+        emissive: 0xff0000,
+        emissiveIntensity: 0.62,
+        roughness: 0.32,
+        metalness: 0.5,
+        flatShading: true,
+      })
+    );
+    scene.add(mesh);
+    const sparks = [];
+    for (let i = 0; i < 36; i++) {
+      const s = new THREE.Mesh(
+        new THREE.BoxGeometry(0.07, 0.07, 0.07),
+        new THREE.MeshBasicMaterial({ color: i % 4 === 0 ? 0xff3b1f : 0xffffff, transparent: true, opacity: 0.35 })
+      );
+      const bx = (Math.random() - 0.5) * 2.8;
+      const by = (Math.random() - 0.5) * 2.8;
+      const bz = (Math.random() - 0.5) * 2.8;
+      s.userData = { bx, by, bz, s: 0.4 + Math.random(), dir: new THREE.Vector3(Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5).normalize() };
+      sparks.push(s);
+      scene.add(s);
+    }
+    const camBase = new THREE.Vector3(0, 0.12, 5.2);
+    return interactiveLoop(mount, scene, cam, renderer, ptr, (t, p) => {
+      const pl = p.pulse;
+      fill.intensity = 0.35 + pl * 6;
+      fill.position.set(p.mx * 3, 1.5 + p.my * 1.2, 2.5);
+      mesh.rotation.x = t * 0.34 + p.dragY * 1.4;
+      mesh.rotation.y = t * 0.46 + p.dragX * 1.4;
+      mesh.material.emissiveIntensity = 0.55 + pl * 2.8;
+      mesh.scale.setScalar(1 + Math.sin(t * 1.9) * 0.05 + pl * 0.2);
+      sparks.forEach((s) => {
+        const u = s.userData;
+        const kick = pl * 2.2;
+        s.position.set(
+          u.bx + u.dir.x * kick,
+          u.by + Math.sin(t * u.s + u.bx) * 0.14 + u.dir.y * kick,
+          u.bz + u.dir.z * kick
+        );
+        s.rotation.x += 0.035 + pl * 0.1;
+        s.material.opacity = 0.2 + pl * 0.55;
+      });
+      cam.position.set(
+        camBase.x + p.mx * 0.55 + Math.sin(p.dragX * 2) * 0.3,
+        camBase.y - p.my * 0.35 + p.dragY * 0.25,
+        camBase.z + pl * -0.25
+      );
+      cam.lookAt(0, 0, 0);
+    });
+  }
+
+  /* --- 5 Iris --- */
+  function initIris(mount, ptr) {
+    const { scene, cam, renderer, fill } = baseScene(mount);
+    fill.intensity = 0.4;
+    const blades = [];
+    const n = 8;
+    const g = new THREE.PlaneGeometry(1.45, 0.38);
+    const group = new THREE.Group();
+    scene.add(group);
+    for (let i = 0; i < n; i++) {
+      const mesh = new THREE.Mesh(
+        g,
+        new THREE.MeshStandardMaterial({
+          color: 0x101010,
+          emissive: 0xff2200,
+          emissiveIntensity: 0.35,
+          side: THREE.DoubleSide,
+          metalness: 0.65,
+          roughness: 0.35,
+        })
+      );
+      const a = (i / n) * Math.PI * 2;
+      blades.push({ mesh, base: a });
+      group.add(mesh);
+    }
+    let slam = 0;
+    return interactiveLoop(mount, scene, cam, renderer, ptr, (t, p) => {
+      if (p.pulse > 0.82) slam = 1;
+      slam *= 0.86;
+      const pl = p.pulse;
+      fill.intensity = 0.35 + pl * 5;
+      const openBase = 0.38 + Math.sin(t * 1.05) * 0.2;
+      const open = openBase * (1 - slam * 0.85) + p.mx * 0.28;
+      group.rotation.z = Math.sin(t * 0.18) * 0.08 + p.dragX * 0.9;
+      group.rotation.y = p.dragY * 0.7;
+      blades.forEach((b) => {
+        const r = 0.32 + open + pl * 0.25;
+        b.mesh.position.set(Math.cos(b.base) * r, Math.sin(b.base) * r, 0);
+        b.mesh.rotation.z = b.base + Math.PI / 2 + open * 0.42;
+        b.mesh.material.emissiveIntensity = 0.28 + pl * 1.8 + slam * 1.2;
+      });
+      cam.position.x = p.mx * 0.25;
+      cam.position.y = -p.my * 0.18;
+      cam.lookAt(0, 0, 0);
+    });
+  }
+
+  /* --- 6 Pixel wall --- */
+  function initPixels(mount, ptr) {
+    const { scene, cam, renderer, fill } = baseScene(mount);
+    fill.intensity = 0.35;
+    const cols = 24;
+    const rows = 16;
+    const count = cols * rows;
+    const geo = new THREE.BoxGeometry(0.085, 0.085, 0.085);
+    const mat = new THREE.MeshStandardMaterial({ color: 0xf5f0e8, roughness: 0.5, metalness: 0.25, emissive: 0xff0000, emissiveIntensity: 0 });
+    const inst = new THREE.InstancedMesh(geo, mat, count);
+    scene.add(inst);
+    const dummy = new THREE.Object3D();
+    let ripple = 0;
+    return interactiveLoop(mount, scene, cam, renderer, ptr, (t, p) => {
+      if (p.pulse > 0.75) ripple = 1;
+      ripple *= 0.91;
+      const pl = p.pulse;
+      fill.intensity = 0.25 + pl * 5;
+      const ox = p.mx * 1.8;
+      const oy = p.my * 1.8;
+      let idx = 0;
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const px = (x - cols / 2) * 0.13;
+          const py = (y - rows / 2) * 0.13;
+          const d = Math.sqrt((px - ox) ** 2 + (py - oy) ** 2);
+          const wave = Math.sin(px * 2.2 + py * 1.6 + t * 1.35 + d * 2) * 0.16;
+          const rip = Math.sin(d * 5 - t * 8) * 0.22 * ripple;
+          dummy.position.set(px, py, wave + rip + pl * 0.15);
+          dummy.rotation.set(t * 0.18 + y * 0.04 + p.dragY * 0.5, t * 0.14 + x * 0.035 + p.dragX * 0.5, 0);
+          const hot = (x + y + Math.floor(t * 3)) % 6 === 0 ? 1 : 0;
+          const sc = (hot ? 1.2 : 0.88) + pl * 0.35 + ripple * 0.25;
+          dummy.scale.setScalar(sc);
+          dummy.updateMatrix();
+          inst.setMatrixAt(idx++, dummy.matrix);
+        }
+      }
+      inst.instanceMatrix.needsUpdate = true;
+      inst.rotation.y = Math.sin(t * 0.22) * 0.12 + p.dragX * 0.45;
+      mat.emissiveIntensity = pl * 0.8 + ripple * 0.5;
+      cam.position.x = p.mx * 0.35;
+      cam.position.y = 0.1 - p.my * 0.2;
+      cam.lookAt(0, 0, 0);
+    });
+  }
+
+  /* --- 7 Grid floor --- */
+  function initGridFloor(mount, ptr) {
+    const { scene, cam, renderer, fill } = baseScene(mount);
+    fill.intensity = 0.25;
+    fill.position.set(0, 2, 4);
+    const camAnchor = new THREE.Vector3(0.35, 1.25, 4.1);
+    const grid = new THREE.GridHelper(16, 32, 0x440000, 0x252525);
+    grid.position.y = -0.9;
+    scene.add(grid);
+    const bar = new THREE.Mesh(
+      new THREE.BoxGeometry(10, 0.05, 0.14),
+      new THREE.MeshBasicMaterial({ color: 0xff0000, transparent: true, opacity: 0.82 })
+    );
+    bar.position.set(0, -0.15, -3.4);
+    scene.add(bar);
+    const sweep = new THREE.Mesh(
+      new THREE.RingGeometry(0.4, 4.5, 48),
+      new THREE.MeshBasicMaterial({ color: 0xff3b1f, transparent: true, opacity: 0, side: THREE.DoubleSide })
+    );
+    sweep.rotation.x = -Math.PI / 2;
+    sweep.position.y = -0.88;
+    scene.add(sweep);
+    return interactiveLoop(mount, scene, cam, renderer, ptr, (t, p) => {
+      const pl = p.pulse;
+      fill.intensity = 0.2 + pl * 8;
+      const zx = p.mx * 0.5 + p.dragX * 1.2;
+      const zy = -p.my * 0.35 + p.dragY * 0.9;
+      cam.position.set(camAnchor.x + zx, camAnchor.y + zy, camAnchor.z + pl * -0.4);
+      cam.lookAt(0, -0.2, -2.2 + p.mx * 0.4);
+      bar.material.opacity = 0.5 + Math.sin(t * 1.8) * 0.28 + pl * 0.45;
+      bar.position.x = p.mx * 0.6;
+      sweep.material.opacity = pl * 0.55;
+      sweep.scale.setScalar(0.6 + t * 0.15 + pl * 2);
+      grid.position.z = Math.sin(t * 0.15 + p.mx) * 0.2;
+    });
+  }
+
+  const cleanups = OPTS.map((opt) => wire(opt, opt.init));
+  window.addEventListener("beforeunload", () => cleanups.forEach((fn) => fn && fn()));
+})();
+  </script>
+</body>
+</html>

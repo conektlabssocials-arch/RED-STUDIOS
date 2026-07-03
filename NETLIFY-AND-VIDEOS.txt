@@ -1,0 +1,36 @@
+NETLIFY (drag & drop)
+---------------------
+1. From this folder run:  ./build-dist.sh   (or: npm run build)
+2. Upload the *contents* of dist/ (index.html, assets/, scripts/, styles/ at the root of the zip — not the parent folder).
+3. Netlify → Add new site → Deploy manually.
+
+Git: connect repo; netlify.toml runs the same build and publishes dist/.
+
+VERCEL (CLI only — no GitHub)
+-----------------------------
+1. Vercel → Project (red-studios-landing) → Settings → Git → Disconnect  
+   (If Git stays connected, Vercel checks commit author email against GitHub and can block deploys.)
+2. Git author in this repo is pinned to rakesh.sangolli@gmail.com (same as your Vercel account email).  
+   Do not change user.email for this folder unless it matches the account Vercel uses.
+3. From this folder:  npm run vercel:deploy  
+   (Uploads this directory and runs build on Vercel — same idea as the first CLI deploy, no Git push.)
+
+VIDEOS — preview on your site
+-----------------------------
+A) GOOGLE DRIVE (already in landing.jsx)
+   - Drive → video file → Share → “Anyone with the link”.
+   - URL looks like: …/file/d/FILE_ID_HERE/view
+   - In scripts/landing.jsx find PORTFOLIO and set driveFileId: "FILE_ID_HERE" for that project.
+   - Run ./build-dist.sh again, upload the new dist/.
+
+   Users watch inside your lightbox, but the file still streams from Google. You cannot fully prevent saving in a browser.
+
+B) HOST MP4 ON NETLIFY (simple, static)
+   - Add files under assets/videos/your-reel.mp4
+   - Extend landing.jsx to use <video src="…" controls playsInline> for cards/lightbox (optional controlsList="nodownload" — not foolproof).
+   - Rebuild dist, deploy.
+
+C) Mux / Cloudflare Stream / Vimeo
+   - Best playback; use their player or signed URLs if you need tighter control.
+
+Always rebuild (./build-dist.sh) after editing the source, then upload the new dist/.
