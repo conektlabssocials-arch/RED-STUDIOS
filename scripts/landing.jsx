@@ -708,12 +708,12 @@ function Contact() {
               <div className="line"><span className="k">&gt; COMPANY</span><input value={form.company} onChange={update("company")} placeholder="Brand or studio" /></div>
               <div className="line"><span className="k">&gt; TYPE</span>
                 <select value={form.project} onChange={update("project")}>
-                  <option>Ad Film</option><option>Brand Film</option><option>Social Reels</option><option>Title Sequence / VFX</option><option>Other</option>
+                  <option>Realestic Ai commercial</option><option>Ai UGC</option><option>Ai commercial Advertisment</option><option>Ai Music Video</option><option>Packege of Multiple things</option><option>other</option>
                 </select>
               </div>
               <div className="line"><span className="k">&gt; BUDGET</span>
                 <select value={form.budget} onChange={update("budget")}>
-                  <option>{"< ₹1L"}</option><option>₹1L — ₹5L</option><option>₹5L — ₹15L</option><option>₹15L+</option><option>To discuss</option>
+                  <option>₹50k — ₹1L</option><option>₹1L — ₹2L</option><option>₹2L — ₹3L</option><option>₹3L — ₹4L</option><option>₹4L — ₹5L</option><option>{'>₹5L'}</option><option>To discuss</option>
                 </select>
               </div>
               <div className="line" style={{ alignItems: "flex-start" }}>
