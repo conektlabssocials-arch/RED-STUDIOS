@@ -361,28 +361,23 @@ function Services() {
 
 // ---------- Portfolio (Drive previews; ids from share links) ----------
 const PORTFOLIO = [
-  { id: 1, t: "AI SMASHGUYS", c: "SOCIAL", client: "Smash Guys", dur: "—", cat: "social", driveFileId: "1yvk4QcxoZ1dLVD2sv5JaGGrEKuJ5fLZJ", videoFile: "ai smashguys_.mp4" },
-  { id: 2, t: "ARVEEN PERFUME", c: "AD FILM", client: "Arveen", dur: "—", cat: "ad", driveFileId: "1ySCHBpkl_jqaIwYuc-WQCl-jGp3Tno2B", videoFile: "Arveen Perfume.mp4" },
-  { id: 3, t: "BIG MISHRA AI REEL", c: "SOCIAL", client: "Big Mishra", dur: "—", cat: "social", driveFileId: "1JKMar-v7MnnhvAaf3kQpL9IYtFzNHBWl", videoFile: "Big Mishra ai reel .mp4" },
-  { id: 4, t: "BIG MISHRA (ALT)", c: "SOCIAL", client: "Big Mishra", dur: "—", cat: "social", driveFileId: "1ZQFRM1jzP-5AF1eBC1x52NTl7GIT9p4M", videoFile: "Big mishra Ai reel changed.mp4" },
-  { id: 5, t: "HF 073652", c: "CLIP", client: "Render", dur: "—", cat: "social", driveFileId: "1jCl8SH-sBMrhl-0ekOEh21vmmCAEDXRz", videoFile: "hf_20260207_073652_de7f4965-6c37-447e-a466-a77726abf560.mp4" },
-  { id: 6, t: "HF 103020", c: "CLIP", client: "Render", dur: "—", cat: "social", driveFileId: "1tr6is9HiBCUWLgdztlo7DQ0mEeLfzmay", videoFile: "hf_20260207_103020_648c7540-620a-4197-ad27-4d5ffc906909.mp4" },
-  { id: 7, t: "IMG 1384", c: "BRAND", client: "Studio", dur: "—", cat: "brand", driveFileId: "1pKb52p-_TgNOUeK4lpGUeda6u-okOTTC", videoFile: "IMG_1384.mp4" },
-  { id: 8, t: "IMG 4782", c: "SOCIAL", client: "Studio", dur: "—", cat: "social", driveFileId: "1SGNwLDYU76IQDyA8bO-1JLULTDVizKkq", videoFile: "IMG_4782 (1).mp4" },
-  { id: 9, t: "IMG 6483", c: "SOCIAL", client: "Studio", dur: "—", cat: "social", driveFileId: "1klHsWpQkF9IeMbwl-jLa9KAecmQ-D7yy", videoFile: "IMG_6483.mp4" },
-  { id: 10, t: "LAKME AD", c: "AD FILM", client: "Lakmé", dur: "—", cat: "ad", driveFileId: "1H3bLuGHbvIM4y79ogAfNXmwUoq6meLUE", videoFile: "Lakme AD.mp4" },
-  { id: 11, t: "LENSKART", c: "AD FILM", client: "Lenskart", dur: "—", cat: "ad", driveFileId: "1AhOYBVAxbTnWC6HwgHcbN7v5SMgNit6S", videoFile: "Lenskart.mp4" },
-  { id: 12, t: "MEETHA BHARAT DIWALI", c: "SOCIAL", client: "Campaign", dur: "—", cat: "social", driveFileId: "1xpNOUZWx4xpoWRyxLUR148JxQj_gSdtZ", videoFile: "meetha Bharat Diwali AI reel 2..mp4" },
-  { id: 13, t: "PARIS PANINI", c: "AD FILM", client: "Paris Panini", dur: "—", cat: "ad", driveFileId: "1N4y5Xy024WTXRUBLxgUNmmaWyJFc1Sme", videoFile: "paris panini.mp4" },
-  { id: 14, t: "SMASH GUYS AI REEL", c: "SOCIAL", client: "Smash Guys", dur: "—", cat: "social", driveFileId: "1oS4Hf1xCDHPJ7JyAxgahqtgOPzjeNWeH", videoFile: "smash guys ai reel.mp4" },
-  { id: 15, t: "KING ICE CREAM", c: "SOCIAL", client: "King Ice Cream", dur: "—", cat: "social", driveFileId: "1LXE7DHiZg-TKuhAiPY-6-cu4wIw_FFYR", videoFile: "Video-680.mp4" },
-  { id: 16, t: "KING ICE CREAM 2", c: "SOCIAL", client: "King Ice Cream", dur: "—", cat: "social", driveFileId: "1jNwqzunpkzn6JP3uw6cDZ4-a-pBIwSOb", videoFile: "Video-938.mp4" },
-  { id: 17, t: "BAAN PHAD THAI ", c: "SOCIAL", client: "BSC", dur: "—", cat: "bsc", driveFileId: "1wlXyi-gwwX_P3cmGiPQeRwJCUgoXgkX-", videoFile: "WhatsApp Video 2026-07-01 at 6.33.30 PM.mp4" },
+  { id: 21, t: "FLIPKART", c: "AD FILM", client: "Flipkart", dur: "—", cat: "bsc", driveFileId: "1ii4qIy9jQhSbUi397UQcQlk8dcMoQ5cs", videoFile: "filpkart.mp4" },
+  { id: 21, t: "FLIPKART", c: "AD FILM", client: "Flipkart", dur: "—", cat: "bsc", driveFileId: "1ii4qIy9jQhSbUi397UQcQlk8dcMoQ5cs", videoFile: "flipkart3.mp4" },
+  { id: 21, t: "FLIPKART", c: "AD FILM", client: "Flipkart", dur: "—", cat: "bsc", driveFileId: "1ii4qIy9jQhSbUi397UQcQlk8dcMoQ5cs", videoFile: "flipkart2.mp4" },
   { id: 18, t: "NIKE", c: "AD FILM", client: "Nike", dur: "—", cat: "ad", driveFileId: "1uhugGYg3VAcPGZn_MENusuh09fCr7Gcg", videoFile: "WhatsApp Video 2026-07-01 at 6.34.03 PM.mp4" },
   { id: 19, t: "NIKE", c: "CLIP", client: "BSC", dur: "—", cat: "bsc", driveFileId: "1YFrbeMEiB3iDqvGhVwpzcgN9q1s59gyK", videoFile: "WhatsApp Video 2026-07-01 at 6.34.08 PM.mp4" },
   { id: 20, t: "LAY'S", c: "AD FILM", client: "BSC", dur: "—", cat: "bsc", driveFileId: "1-rvouNYeLnrTrCy94oGUrqQVrFR7UDDN", videoFile: "WhatsApp Video 2026-07-01 at 6.34.09 PM.mp4" },
-  { id: 21, t: "FLIPKART", c: "AD FILM", client: "Flipkart", dur: "—", cat: "bsc", driveFileId: "1ii4qIy9jQhSbUi397UQcQlk8dcMoQ5cs", videoFile: "Final Edit (Video 2).mp4" },
   { id: 22, t: "MARKI", c: "CLIP", client: "BSC", dur: "—", cat: "bsc", driveFileId: "1fIozwSzlidNFENuOSy6Xx-lmtfvkDZ40", videoFile: "MARKI's (advertisement).mp4" },
+  { id: 17, t: "BAAN PHAD THAI ", c: "SOCIAL", client: "BSC", dur: "—", cat: "bsc", driveFileId: "1wlXyi-gwwX_P3cmGiPQeRwJCUgoXgkX-", videoFile: "WhatsApp Video 2026-07-01 at 6.33.30 PM.mp4" },
+  { id: 1, t: "AI SMASHGUYS", c: "SOCIAL", client: "Smash Guys", dur: "—", cat: "social", driveFileId: "1yvk4QcxoZ1dLVD2sv5JaGGrEKuJ5fLZJ", videoFile: "ai smashguys_.mp4" },
+  { id: 4, t: "BIG MISHRA (ALT)", c: "SOCIAL", client: "Big Mishra", dur: "—", cat: "social", driveFileId: "1ZQFRM1jzP-5AF1eBC1x52NTl7GIT9p4M", videoFile: "Big mishra Ai reel changed.mp4" },
+  { id: 5, t: "HF 073652", c: "CLIP", client: "Render", dur: "—", cat: "social", driveFileId: "1jCl8SH-sBMrhl-0ekOEh21vmmCAEDXRz", videoFile: "hf_20260207_073652_de7f4965-6c37-447e-a466-a77726abf560.mp4" },
+  { id: 7, t: "IMG 1384", c: "BRAND", client: "Studio", dur: "—", cat: "brand", driveFileId: "1pKb52p-_TgNOUeK4lpGUeda6u-okOTTC", videoFile: "IMG_1384.mp4" },
+  { id: 11, t: "LENSKART", c: "AD FILM", client: "Lenskart", dur: "—", cat: "ad", driveFileId: "1AhOYBVAxbTnWC6HwgHcbN7v5SMgNit6S", videoFile: "Lenskart.mp4" },
+  { id: 12, t: "MEETHA BHARAT DIWALI", c: "SOCIAL", client: "Campaign", dur: "—", cat: "social", driveFileId: "1xpNOUZWx4xpoWRyxLUR148JxQj_gSdtZ", videoFile: "meetha Bharat Diwali AI reel 2..mp4" },
+  { id: 13, t: "PARIS PANINI", c: "AD FILM", client: "Paris Panini", dur: "—", cat: "ad", driveFileId: "1N4y5Xy024WTXRUBLxgUNmmaWyJFc1Sme", videoFile: "paris panini.mp4" },
+  { id: 15, t: "KING ICE CREAM", c: "SOCIAL", client: "King Ice Cream", dur: "—", cat: "social", driveFileId: "1LXE7DHiZg-TKuhAiPY-6-cu4wIw_FFYR", videoFile: "Video-680.mp4" },
+  { id: 16, t: "KING ICE CREAM 2", c: "SOCIAL", client: "King Ice Cream", dur: "—", cat: "social", driveFileId: "1jNwqzunpkzn6JP3uw6cDZ4-a-pBIwSOb", videoFile: "Video-938.mp4" },
 ];
 const FILTERS = [
   { k: "all", l: "All" },
@@ -611,23 +606,16 @@ function Process() {
 
 // ---------- Clients (logos: assets/clients — replace placeholder SVGs with official brand assets when licensed) ----------
 const CLIENTS = [
-  { cat: "PARTNER", logo: "assets/clients/tata.svg", name: "TATA" },
-  { cat: "BFSI", logo: "assets/clients/sbi.svg", name: "SBI" },
-  { cat: "D2C", logo: "assets/clients/himalayan.svg", name: "HIMALAYAN" },
-  { cat: "TECH", logo: "assets/clients/noise.svg", name: "NOISE" },
-  { cat: "F&B", logo: "assets/clients/tetley.svg", name: "TETLEY" },
+  { cat: "F&B", logo: "assets/clients/flipkart.png", name: "FLIPKART" },
+  { cat: "F&B", logo: "assets/clients/CrepdogCrew.avif", name: "CREP DOG CREW" },
+  { cat: "F&B", logo: "assets/clients/marki.png", name: "MARKI'S" },
+  { cat: "F&B", logo: "assets/clients/Baan Phad Thai.jpg", name: "BAAN PAD THAI" },
   { cat: "F&B", logo: "assets/clients/mishra-pedha.png", name: "MISHRA PEDHA" },
   { cat: "DAIRY", logo: "assets/clients/adityaa-milk.png", name: "ADITYAA MILK" },
-  { cat: "LIFESTYLE", logo: "assets/clients/fyres.png", name: "FYRES" },
   { cat: "F&B", logo: "assets/clients/smash-guys.png", name: "SMASH GUYS" },
   { cat: "F&B", logo: "assets/clients/paris-panini.png", name: "PARIS PANINI" },
   { cat: "F&B", logo: "assets/clients/pizza-bakery.png", name: "THE PIZZA BAKERY" },
   { cat: "F&B", logo: "assets/clients/king-ice-cream.png", name: "KING ICE CREAM" },
-  { cat: "JEWELRY", logo: "assets/clients/tanishq.svg", name: "TANISHQ" },
-  { cat: "F&B", logo: "assets/clients/marki.png", name: "MARKI'S" },
-  { cat: "F&B", logo: "assets/clients/Baan Phad Thai.jpg", name: "BAAN PAD THAI" },
-  { cat: "F&B", logo: "assets/clients/flipkart.png", name: "FLIPKART" },
-  { cat: "F&B", logo: "assets/clients/CrepdogCrew.avif", name: "CREP DOG CREW" }
 
 ];
 function Clients() {
@@ -797,12 +785,14 @@ function App() {
       <Nav />
       <Hero />
       <Ticker />
+      <Clients />
+      <Portfolio />
       <Value />
       <Services />
       <Marquee items={["OUR WORK ↓", "FRAMES FROM FILMS THAT DON'T EXIST YET", "AD · BRAND · SOCIAL · TITLES", "PRESS ANY TILE TO PLAY"]} />
-      <Portfolio />
+
       <Process />
-      <Clients />
+
       <CTABand />
       <Contact />
       <Footer />
